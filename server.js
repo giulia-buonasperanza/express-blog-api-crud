@@ -1,10 +1,12 @@
 import express from 'express';
-import postsRouter from './routers/posts.js';
+import postsRouter from './routers/posts.router.js';
 
 const PORT = process.env.PORT || 3000;
 const URL = process.env.URL || `http://localhost:${PORT}`;
 
 const app = express();
+
+app.use(express.json());
 
 app.use('/posts', postsRouter);
 
