@@ -2,7 +2,7 @@ import posts from '../data/posts.js';
 
 
 function index(request, response) {
-    response.json(posts);
+    response.status(200).json(posts);
 }
 
 
@@ -59,7 +59,37 @@ function modify(request, response) {
 }
 
 function destroy(request, response) {
-    response.json({
+    const id = Number(request.params.id);
+
+    if(isNan(id) || id < 0) {
+        response
+            .status(400)
+            .json({
+                error: "id inserito errato",
+                result:null
+            });
+    }
+
+    const postIndex = posts.findIndex(posts => {
+        posts.id === id
+    });
+
+    if(postIndex === -1) {
+        return response
+        .status(404)
+        .json({
+            error: 'Post not found',
+            result: null
+        });
+    }
+
+    post.splice(postIndex, 1);
+
+    console.log(posts);
+
+    response
+    .status(204)
+    .json({
         message: 'elemento eliminato'
     });
 }
